@@ -1,0 +1,315 @@
+import ipstw
+import time
+import random
+
+w = ipstw.IPSTW()
+sw1 = 19
+sw2 = 23
+mul_score = 1
+modpin = 34
+bt = 0
+s = []
+score = 0
+roundd = 0
+l = 5
+r = 26
+ans = []
+state = -1
+w.output(r, 0)
+w.output(l, 0)
+mode = ["Phakkapon Mode", "Sorpinya Mode", "Chanatee Mode"]
+modpin = 34
+bt = 0
+restart = 1
+xs0 = 0.2
+xs1 = 0.1
+while True:
+    w.fill(0)
+    w.fill_rect(0, 0, 128, 6, 1)
+    w.fill_rect(0, 58, 128, 6, 1)
+    w.show()
+    time.sleep(0.25)
+    w.hline(51, 10, 25, 1)
+    w.hline(51, 52, 25, 1)
+    w.show()
+    w.sound(500, 0.2)
+    w.hline(30, 10, 15, 1)
+    w.hline(81, 10, 15, 1)
+    w.hline(30, 52, 15, 1)
+    w.hline(81, 52, 15, 1)
+    w.show()
+    w.sound(600, 0.2)
+    w.hline(14, 10, 10, 1)
+    w.hline(101, 10, 10, 1)
+    w.hline(14, 52, 10, 1)
+    w.hline(101, 52, 10, 1)
+    w.show()
+    w.sound(700, 0.2)
+    w.hline(3, 10, 5, 1)
+    w.hline(117, 10, 5, 1)
+    w.hline(3, 52, 5, 1)
+    w.hline(117, 52, 5, 1)
+    w.show()
+    w.sound(800, 0.2)
+    time.sleep(0.8)
+
+    w.text('w', 30, 28)
+    w.text('e', 40, 28)
+    w.text('l', 50, 28)
+    w.text('c', 60, 28)
+    w.text('o', 70, 28)
+    w.text('m', 80, 28)
+    w.text('e', 90, 28)
+    w.show()
+    w.sound(500, 0.2)
+    time.sleep(1.3)
+
+    w.fill_rect(5, 25, 100, 25, 0)
+    w.show()
+
+    time.sleep(0.1)
+
+    w.text('to', 58, 28)
+    w.show()
+    w.sound(600, 0.2)
+    time.sleep(1.3)
+
+    w.fill_rect(5, 25, 100, 25, 0)
+    w.show()
+    time.sleep(0.1)
+
+    w.text('B', 10, 28)
+    w.text('e', 18, 28)
+    w.text('t', 26, 28)
+    w.show()
+    w.sound(700, 0.2)
+    time.sleep(0.5)
+
+    w.text('y', 41, 28)
+    w.text('o', 49, 28)
+    w.text('u', 57, 28)
+    w.text('r', 65, 28)
+    w.show()
+    w.sound(750, 0.2)
+    time.sleep(0.5)
+
+    w.text('B', 80, 28)
+    w.show()
+    w.sound(800, 0.2)
+    time.sleep(xs1)
+    w.text('R', 88, 28)
+    w.show()
+    w.sound(900, 0.2)
+    time.sleep(xs1)
+    w.text('A', 96, 28)
+    w.show()
+    w.sound(800, 0.2)
+    time.sleep(xs1)
+    w.text('I', 104, 28)
+    w.show()
+    w.sound(1000, 0.2)
+    time.sleep(xs1)
+    w.text('N', 112, 28)
+    w.show()
+    w.sound(1500, 0.2)
+    time.sleep(2)
+    break
+
+
+def difficulty_choose():
+    while 1:
+        status = w.input(bt)
+        val = w.analog(modpin)
+        level = int(val / 2047)
+        w.fill(0)
+        w.text('Difficulty:', 23, 15)
+        w.text('%s' % (mode[level]), 11, 30)
+        w.text("accept", 82, 55)
+        w.hline(71, 51, 3, 1)
+        w.hline(69, 52, 7, 1)
+        w.hline(68, 53, 9, 1)
+        w.hline(67, 54, 11, 1)
+        w.hline(67, 55, 11, 1)
+        w.hline(66, 56, 13, 1)
+        w.hline(66, 57, 13, 1)
+        w.hline(66, 58, 13, 1)
+        w.hline(67, 59, 11, 1)
+        w.hline(67, 60, 11, 1)
+        w.hline(68, 61, 9, 1)
+        w.hline(69, 62, 7, 1)
+        w.hline(71, 63, 3, 1)
+        w.show()
+        time.sleep(0.1)
+        if status == 0:
+            return level
+            break
+
+
+while True:
+    if restart == 1:
+        score = 0
+        roundd = 0
+        s.clear()
+        w.init_display()
+        w.poweron()
+        time.sleep(0.1)
+        level = difficulty_choose()
+        w.fill(0)
+        w.show()
+        if level == 0:
+            hp = 3
+            led_t = 0.5
+        elif level == 1:
+            hp = 2
+            mul_score = 2
+            led_t = 0.25
+        elif level == 2:
+            hp = 1
+            mul_score = 3
+            led_t = 0.15
+
+
+        def blink_l(led_t):
+            w.output(r, 0)
+            w.output(l, 1)
+            w.sound(523, led_t)
+            w.output(r, 0)
+            w.output(l, 0)
+            time.sleep(0.1)
+
+
+        def blink_r(led_t):
+            w.output(r, 1)
+            w.output(l, 0)
+            w.sound(783, led_t)
+            w.output(r, 0)
+            w.output(l, 0)
+            time.sleep(0.1)
+
+
+        while hp > 0:
+            w.output(r, 0)
+            w.output(l, 0)
+            state = -1
+            roundd = roundd + 1  # ใช้เก็บค่าเลเวล
+            num = random.randint(0, 1)  # สุ่มกะพริบไฟ โดยให้ 1 คือกระพริบฝั่งซ้าย และ 0 คือกระพริบฝั่งขวา
+            s.append(num)  # เก็บค่าที่ได้จากการสุ่มไว้
+            slen = len(s)
+            w.fill(0)
+            w.text("HP:%d" % (hp), 1, 5)
+            w.text("Score:%d" % (score), 23, 30)
+            w.text("Level:%d" % (roundd), 65, 5)
+            w.show()
+            time.sleep(0.2)
+            while (state == 1 or state == -1) and hp > 0:
+                for i in range(0, slen):
+                    sled = s[i]
+                    if sled == 0:
+                        blink_r(led_t)
+                    elif sled == 1:
+                        blink_l(led_t)
+                for i in range(0, slen):
+                    while True:
+                        sw_l = w.input(sw1)
+                        sw_r = w.input(sw2)
+                        if sw_l == 0 and sw_r == 1:
+                            ans = 1
+                            blink_l(0.15)
+                            break
+                        elif sw_r == 0 and sw_l == 1:
+                            ans = 0
+                            blink_r(0.15)
+                            break
+                    if ans != s[i]:
+                        w.sound(600, 0.2)
+                        w.sound(200, 0.2)
+                        w.fill(0)
+                        w.line(0, 0, 127, 63, 1)
+                        w.line(127, 0, 0, 63, 1)
+                        w.rect(0, 0, 127, 63, 1)
+                        w.show()
+                        time.sleep(0.3)
+                        hp = hp - 1
+                        state = 1
+                        score = score - 100
+                        w.fill(0)
+                        w.text("HP:%d" % (hp), 1, 5)
+                        w.text("Score:%d" % (score), 25, 30)
+                        w.text("Level:%d" % (roundd), 65, 5)
+                        w.show()
+                        break;
+                    elif ans == s[i]:
+                        state = 0
+                    if state == 0:
+                        score = score + 100 * mul_score
+                    time.sleep(0.1)
+        w.fill(0)
+        w.text("YOU LOSE!!!!", 17, 7)
+        w.text("Score:%d" % (score), 25, 22)
+        w.text("Level:%d" % (roundd), 35, 37)
+        w.text("L to continue", 13, 50)
+        w.show()
+        w.sound(1200, 0.2)
+        w.sound(1000, 0.2)
+        w.sound(800, 0.2)
+        w.sound(600, 0.2)
+        w.sound(650, 0.2)
+        w.sound(700, 0.2)
+        while True:
+            con_s = w.input(sw1)
+            if con_s == 0:
+                break;
+        time.sleep(0.3)
+        while True:
+
+            w.fill(0)
+            w.text("Press L Switch", 3, 7)
+            w.text("to Countiune", 3, 20)
+            w.text("Press R Switch", 3, 37)
+            w.text("to Exit", 3, 50)
+            w.show()
+            re_s = w.input(sw1)
+            over_s = w.input(sw2)
+            if re_s == 0:
+                restart = 1
+                break
+            elif over_s == 0:
+                restart = 0
+                break
+    elif restart == 0:
+        w.fill(0)
+        w.text("Good Bye", 20, 23)
+        w.show()
+        time.sleep(0.1)
+        w.text(".", 82, 23)
+        w.show()
+        time.sleep(0.3)
+        w.text(".", 86, 23)
+        w.show()
+        time.sleep(0.3)
+        w.text(".", 90, 23)
+        w.show()
+        time.sleep(0.3)
+        w.sound(1200, 0.2)
+        w.sound(1000, 0.2)
+        w.sound(1100, 0.2)
+
+        while True:
+            w.fill(0)
+            w.text("Sleep Mode", 14, 23)
+            w.text("Hold L to start", 5, 50)
+            w.show()
+            time.sleep(0.1)
+            w.text(".", 94, 23)
+            w.show()
+            time.sleep(0.3)
+            w.text(".", 99, 23)
+            w.show()
+            time.sleep(0.3)
+            w.text(".", 104, 23)
+            w.show()
+            time.sleep(0.3)
+            start_s = w.input(sw1)
+            if start_s == 0:
+                restart = 1
+                break
