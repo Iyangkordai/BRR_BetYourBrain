@@ -1,0 +1,388 @@
+import ipstw
+import time
+import random
+w = ipstw.IPSTW()
+sound_s = 1
+sw1 = 19
+sw2 = 23
+mul_score = 1
+modpin = 34
+bt = 0
+s = [ ]
+score = 0
+roundd = 0
+l = 5
+r = 26
+ans = [ ]
+state = -1
+w.output(r,0)
+w.output(l,0)
+mode = ["Phakkapon Mode","Sorpinya Mode","Chanatee Mode"]
+modpin = 34
+bt = 0
+restart = 1
+xs0 = 0.2
+xs1 = 0.1
+def intro(sound_s):
+    while True:
+        w.fill(0)
+        w.fill_rect(0,0,128,6,1)
+        w.fill_rect(0,58,128,6,1)
+        w.show()
+        time.sleep(0.25)
+        w.hline(51,10,25,1)
+        w.hline(51,52,25,1)
+        w.show()
+        w.sound(500* sound_s,0.2)
+        w.hline(30,10,15,1)
+        w.hline(81,10,15,1)
+        w.hline(30,52,15,1)
+        w.hline(81,52,15,1)
+        w.show()
+        w.sound(600 * sound_s,0.2)
+        w.hline(14,10,10,1)
+        w.hline(101,10,10,1)
+        w.hline(14,52,10,1)
+        w.hline(101,52,10,1)
+        w.show()
+        w.sound(700* sound_s,0.2)
+        w.hline(3,10,5,1)
+        w.hline(117,10,5,1)
+        w.hline(3,52,5,1)
+        w.hline(117,52,5,1)
+        w.show()
+        w.sound(800* sound_s,0.2)
+        time.sleep(0.8)
+
+        w.text('w',30,28)
+        w.text('e',40,28)
+        w.text('l',50,28)
+        w.text('c',60,28)
+        w.text('o',70,28)
+        w.text('m',80,28)
+        w.text('e',90,28)
+        w.show()
+        w.sound(500* sound_s,0.2)
+        w.sound(1000* sound_s,0.2)
+        time.sleep(0.8)
+
+        w.fill_rect(5,25,100,25,0)
+        w.show()
+
+        time.sleep(0.1)
+
+        w.text('to',58,28)
+        w.show()
+        w.sound(600* sound_s,0.2)
+        time.sleep(1)
+
+        w.fill_rect(5,25,100,25,0)
+        w.show()
+        time.sleep(0.1)
+
+        w.text('B',10,28)
+        w.text('e',18,28)
+        w.text('t',26,28)
+        w.show()
+        w.sound(700* sound_s,0.2)
+        time.sleep(0.5)
+
+        w.text('y',41,28)
+        w.text('o',49,28)
+        w.text('u',57,28)
+        w.text('r',65,28)
+        w.show()
+        w.sound(750* sound_s,0.2)
+        time.sleep(0.5)
+
+        w.text('B',80,28)
+        w.show()
+        w.sound(800* sound_s,0.2)
+        time.sleep(xs1)
+        w.text('R',88,28)
+        w.show()
+        w.sound(900* sound_s,0.2)
+        time.sleep(xs1)
+        w.text('A',96,28)
+        w.show()
+        w.sound(800* sound_s,0.2)
+        time.sleep(xs1)
+        w.text('I',104,28)
+        w.show()
+        w.sound(1000* sound_s,0.2)
+        time.sleep(xs1)
+        w.text('N',112,28)
+        w.show()
+        w.sound(1500* sound_s,0.2)
+        time.sleep(0.7)
+        break
+    
+def choose_mode():
+    while 1:
+        s1 = w.input(bt)
+        val = w.analog(modpin)
+        val = int(val / 1023)
+        w.fill(0)
+        w.text("Normal",2,3)
+        w.text("Reverse",2,15)
+        w.text("Challege",2,27)
+        w.text("Party(2P-5P)", 2,39)
+        w.text("Setting",2,51)
+        w.text("accept",81,55)
+        w.hline(71,51,3, 1)
+        w.hline(69,52,7, 1)
+        w.hline(68,53,9, 1)
+        w.hline(67,54,11, 1)
+        w.hline(67,55,11, 1)
+        w.hline(66,56,13, 1)
+        w.hline(66,57,13, 1)
+        w.hline(66,58,13, 1)
+        w.hline(67,59,11, 1)
+        w.hline(67,60,11, 1)
+        w.hline(68,61,9, 1)
+        w.hline(69,62,7, 1)
+        w.hline(71,63,3, 1)
+        if val == 0 :
+            for i in range(0,5):
+                w.vline(58-i,2+i,9 - 2*i ,1)
+        elif val == 1:
+            for i in range(0,5):
+                 w.vline(65-i,14+i,9 - 2*i ,1)   
+        elif val == 2:
+            for i in range(0,5):
+                w.vline(75-i,26+i,9 - 2*i ,1)
+        elif val == 3:
+            for i in range(0,5):
+                w.vline(106-i,38+i,9 - 2*i ,1)
+        elif val == 4:
+            w.hline(2,60,56,1)
+        w.show()
+        if s1 == 0 :
+            return val
+            break
+def setting():
+    while 1:
+        val = w.analog(modpin)
+        val = int(val / 4095)
+        sw = w.input(bt)
+        w.fill(0)
+        w.text("Sound",10,30)
+        w.text("On",68,30)
+        w.text("Off",93,30)
+        w.text("accept",81,55)
+        w.hline(71,51,3, 1)
+        w.hline(69,52,7, 1)
+        w.hline(68,53,9, 1)
+        w.hline(67,54,11, 1)
+        w.hline(67,55,11, 1)
+        w.hline(66,56,13, 1)
+        w.hline(66,57,13, 1)
+        w.hline(66,58,13, 1)
+        w.hline(67,59,11, 1)
+        w.hline(67,60,11, 1)
+        w.hline(68,61,9, 1)
+        w.hline(69,62,7, 1)
+        w.hline(71,63,3, 1)
+        if val == 0:
+            w.hline(93,40,22,1)
+        elif val == 1:
+            w.hline(68,40,17,1)
+        w.show()
+        if sw == 0:
+            return val
+            break
+def blink_l(led_t,sound_s):
+    w.output(r,0)
+    w.output(l,1)
+    w.sound(523* sound_s,led_t)
+    w.output(r,0)
+    w.output(l,0)
+    time.sleep(0.1)
+def blink_r(led_t,sound_s):
+    w.output(r,1)
+    w.output(l,0)
+    w.sound(783* sound_s,led_t)
+    w.output(r,0)
+    w.output(l,0)
+    time.sleep(0.1)
+def input_bt(sound_s):
+    while True:
+        sw_l = w.input(sw1)
+        sw_r = w.input(sw2)
+        if sw_l == 0 and sw_r == 1:
+            ans = 1
+            blink_l(0.15,sound_s)
+            return ans
+            break
+        elif sw_r == 0 and sw_l == 1:
+            ans = 0
+            blink_r(0.15,sound_s)
+            return ans
+            break
+def difficulty_choose():
+    while 1 :
+        s1 = w.input(bt)
+        val = w.analog(modpin)
+        level = int(val/2047)
+        w.fill(0)
+        w.text('Difficulty:',23,15)
+        w.text('%s'%(mode[level]),11,30)
+        w.text("accept",82,55)
+        w.hline(71,51,3, 1)
+        w.hline(69,52,7, 1)
+        w.hline(68,53,9, 1)
+        w.hline(67,54,11, 1)
+        w.hline(67,55,11, 1)
+        w.hline(66,56,13, 1)
+        w.hline(66,57,13, 1)
+        w.hline(66,58,13, 1)
+        w.hline(67,59,11, 1)
+        w.hline(67,60,11, 1)
+        w.hline(68,61,9, 1)
+        w.hline(69,62,7, 1)
+        w.hline(71,63,3, 1)
+        w.show()
+        time.sleep(0.1)
+        if s1 == 0 :
+            return level
+            break
+def normal_m(gs,sound_s):
+    while True:
+        score = 0
+        roundd = 0
+        s.clear()
+        time.sleep(0.1)
+        level = difficulty_choose()
+        for i in range(0,3):
+            w.fill(0)
+            w.text("%d" %(3-i),60,30)
+            w.show()
+            w.sound(1000* sound_s,0.2)
+            time.sleep(0.3)
+        w.fill(0)
+        w.text("Start!!!",35,30)
+        w.show()
+        w.sound(1350* sound_s,0.5)
+        time.sleep(0.3)
+        w.fill(0)
+        w.show()
+        if level == 0:
+            hp = 3
+            led_t = 0.5
+            mul_score = 1
+        elif level == 1:
+            hp = 2
+            mul_score = 2
+            led_t = 0.25
+        elif level == 2:
+            hp = 1
+            mul_score = 3
+            led_t = 0.15
+        while hp>0:
+            w.output(r,0)
+            w.output(l,0)
+            state = -1
+            roundd = roundd + 1 #ใช้เก็บค่าเลเวล
+            num = random.randint(0,1) #สุ่มกะพริบไฟ โดยให้ 1 คือกระพริบฝั่งซ้าย และ 0 คือกระพริบฝั่งขวา
+            s.append(num) #เก็บค่าที่ได้จากการสุ่มไว้
+            slen = len(s)
+            w.fill(0)
+            w.text("HP:%d" % (hp),1,5)
+            w.text("Score:%d" %(score),23,30)
+            w.text("Level:%d" %(roundd),65,5)
+            w.show()
+            time.sleep(0.3)
+            while (state == 1 or state == -1) and hp > 0:
+                for i in range (0,slen):
+                    sled = s[i]
+                    if sled == 0 :
+                        blink_r(led_t,sound_s)
+                    elif sled == 1 :
+                        blink_l(led_t,sound_s)
+                for i in range (0,slen):
+                    ans = input_bt(sound_s)
+                    if gs == 1:
+                        ans = not ans
+                    if ans != s[i]:
+                        w.fill(0)
+                        w.line(0,0,127,63,1)
+                        w.line(127,0,0,63,1)
+                        w.rect(0,0,127,63,1)
+                        w.show()
+                        w.sound(600* sound_s,0.2)
+                        w.sound(200* sound_s,0.2)
+                        hp = hp - 1
+                        state = 1
+                        score = score - 100
+                        w.fill(0)
+                        w.text("HP:%d" % (hp),1,5)
+                        w.text("Score:%d" %(score),25,30)
+                        w.text("Level:%d" %(roundd),65,5)
+                        w.show()
+                        break;
+                    elif ans == s[i]:
+                        state = 0
+                    if state == 0:
+                        score = score + 100 * (mul_score  + gs*2) 
+        w.fill(0)
+        w.text("YOU LOSE!!!!" ,17,7)
+        w.text("Score:%d" %(score), 25,22)
+        w.text("Level:%d" %(roundd),35,37)
+        w.text("L to continue",13,50)
+        w.show()
+        for i in range(0,4):
+            w.sound((1200 - i * 200)* sound_s,0.2)
+        w.sound(650* sound_s,0.2)
+        w.sound(700* sound_s,0.2)
+        while True:
+            con_s = w.input(sw1)
+            if con_s == 0:
+                break;
+        time.sleep(0.2)
+        while True:
+            w.fill(0)
+            w.text("Press L Switch",3,7)
+            w.text("to Countiune",3,20)
+            w.text("Press R Switch",3,37)
+            w.text("to Exit",3,50)
+            w.show()
+            re_s = w.input(sw1)
+            over_s = w.input(sw2)
+            if re_s == 0:
+                time.sleep(0.2)
+                normal_m(gs,sound_s)
+                break
+            elif over_s == 0:
+                time.sleep(0.1)
+                main(sound_s)
+                break
+def main(sound_s):
+    while True :
+        g_mode = choose_mode()
+        time.sleep(0.2)
+        if g_mode == 0 or g_mode == 1 :
+            normal_m(g_mode,sound_s)
+        elif g_mode == 2 or g_mode == 3:
+            while 1:
+                sw = w.input(sw1)
+                w.fill(0)
+                w.text("Coming Soon",13,23)
+                w.text("Hold L",10,50)
+                for i in range(0,5):
+                    w.vline(5 - i, 49 + i, 9 - i * 2,1)
+                w.show()
+                time.sleep(0.1)
+                for i in range(0,3):
+                    w.text(".",99+i*5,23)
+                    w.show()
+                    time.sleep(0.3)
+                if sw == 0:
+                    break
+        elif g_mode == 4:
+            sound_s = setting()
+            time.sleep(0.2)
+            main(sound_s)
+sound_s = setting()
+intro(sound_s)
+if __name__ == "__main__":
+    main(sound_s)
